@@ -16,7 +16,7 @@ async def run_get_dom_xss(
     logger: Optional[Logger] = None,
 ) -> List[XSSFinding]:
     if logger:
-        logger.action("testing for reflected XSS vulnerabilities (GET & DOM)...")
+        logger.action("正在测试反射型 XSS 漏洞（GET & DOM）...")
 
     findings: List[XSSFinding] = []
     tested_payloads: Set[tuple] = set()

@@ -29,7 +29,7 @@ async def run_reflection_engine(
     logger: Optional[Logger] = None,
 ) -> List[Parameter]:
     if logger:
-        logger.action(f"analyzing reflection and injection contexts for {len(parameters)} parameter(s)...")
+        logger.action(f"正在分析 {len(parameters)} 个参数的反射与注入上下文...")
 
     if not parameters:
         return []
@@ -63,7 +63,7 @@ async def run_reflection_engine(
                 p.tested = True
                 if logger:
                     colored_name = f"\033[38;5;116m'{p.param_name}'\033[0m"
-                    logger.success(f"[{p.location}] {colored_name} set to {p.custom_context.upper()} context (manual)")
+                    logger.success(f"[{p.location}] {colored_name} 设置为 {p.custom_context.upper()} 上下文（手动）")
 
             if probe_get:
                 probe_url = build_get_url(endpoint, probe_get)
@@ -98,7 +98,7 @@ async def run_reflection_engine(
                                 ))
                                 if logger:
                                     tag_info = f" (tag: <{ref['tags']}>)" if ref['tags'] else ""
-                                    logger.success(f"[{p.location}] {colored_name} reflects in {ref['context'].upper()} context{tag_info}")
+                                    logger.success(f"[{p.location}] {colored_name} 在 {ref['context'].upper()} 上下文中反射{tag_info}")
                                     logger.debug(f"reflection detected: param='{p.param_name}' token='{p.param_value}' context={ref['context']} tag={ref['tags']}")
                         else:
                             p.reflections.append(ReflectionResult(
@@ -110,7 +110,7 @@ async def run_reflection_engine(
                                 text=status_text,
                             ))
                             if logger:
-                                logger.neutral(f"[{p.location}] {colored_name} no reflection detected (default: HTML)")
+                                logger.neutral(f"[{p.location}] {colored_name} 未检测到反射（默认：HTML）")
                                 logger.debug(f"reflection negative: param='{p.param_name}' token='{p.param_value}'")
                 except Exception as err:
                     if logger:
@@ -126,7 +126,7 @@ async def run_reflection_engine(
                             ))
                             if logger:
                                 colored_name = f"\033[38;5;116m'{p.param_name}'\033[0m"
-                                logger.neutral(f"[{p.location}] {colored_name} no reflection detected (default: HTML)")
+                                logger.neutral(f"[{p.location}] {colored_name} 未检测到反射（默认：HTML）")
 
         if post_params:
             manual_post = [p for p in post_params if p.custom_context]
@@ -144,7 +144,7 @@ async def run_reflection_engine(
                 p.tested = True
                 if logger:
                     colored_name = f"\033[38;5;116m'{p.param_name}'\033[0m"
-                    logger.success(f"[{p.location}] {colored_name} set to {p.custom_context.upper()} context (manual)")
+                    logger.success(f"[{p.location}] {colored_name} 设置为 {p.custom_context.upper()} 上下文（手动）")
 
             if probe_post:
                 if logger:
@@ -256,7 +256,7 @@ async def run_reflection_engine(
                                 ))
                                 if logger:
                                     tag_info = f" (tag: <{ref['tags']}>)" if ref['tags'] else ""
-                                    logger.success(f"[{p.location}] {colored_name} reflects in {ref['context'].upper()} context{tag_info}")
+                                    logger.success(f"[{p.location}] {colored_name} 在 {ref['context'].upper()} 上下文中反射{tag_info}")
                                     logger.debug(f"reflection detected: param='{p.param_name}' token='{p.param_value}' context={ref['context']} tag={ref['tags']}")
                         else:
                             p.reflections.append(ReflectionResult(
@@ -269,7 +269,7 @@ async def run_reflection_engine(
                                 text=status_text,
                             ))
                             if logger:
-                                logger.neutral(f"[{p.location}] {colored_name} no reflection detected (default: HTML)")
+                                logger.neutral(f"[{p.location}] {colored_name} 未检测到反射（默认：HTML）")
                                 logger.debug(f"reflection negative: param='{p.param_name}' token='{p.param_value}'")
                 except Exception as err:
                     if logger:
@@ -285,7 +285,7 @@ async def run_reflection_engine(
                             ))
                             if logger:
                                 colored_name = f"\033[38;5;116m'{p.param_name}'\033[0m"
-                                logger.neutral(f"[{p.location}] {colored_name} no reflection detected (default: HTML)")
+                                logger.neutral(f"[{p.location}] {colored_name} 未检测到反射（默认：HTML）")
 
         for dom_param in dom_params:
             if dom_param.custom_context:
@@ -299,7 +299,7 @@ async def run_reflection_engine(
                 dom_param.tested = True
                 if logger:
                     colored_name = f"\033[38;5;116m'{dom_param.param_name}'\033[0m"
-                    logger.success(f"[{dom_param.location}] {colored_name} set to {dom_param.custom_context.upper()} context (manual)")
+                    logger.success(f"[{dom_param.location}] {colored_name} 设置为 {dom_param.custom_context.upper()} 上下文（手动）")
                 continue
 
             probe_url = build_get_url(endpoint, [dom_param])
@@ -331,7 +331,7 @@ async def run_reflection_engine(
                         ))
                         if logger:
                             tag_info = f" (tag: <{ref['tags']}>)" if ref['tags'] else ""
-                            logger.success(f"[{dom_param.location}] {colored_name} reflects in {ref['context'].upper()} context{tag_info}")
+                            logger.success(f"[{dom_param.location}] {colored_name} 在 {ref['context'].upper()} 上下文中反射{tag_info}")
                             logger.debug(f"reflection detected: param='{dom_param.param_name}' token='{dom_param.param_value}' context={ref['context']} tag={ref['tags']}")
                 else:
                     dom_param.reflections.append(ReflectionResult(
@@ -342,7 +342,7 @@ async def run_reflection_engine(
                         request_method="GET",
                     ))
                     if logger:
-                        logger.neutral(f"[{dom_param.location}] {colored_name} no reflection detected (default: DOM_JS_HTML)")
+                        logger.neutral(f"[{dom_param.location}] {colored_name} 未检测到反射（默认：DOM_JS_HTML）")
                         logger.debug(f"reflection negative: param='{dom_param.param_name}' token='{dom_param.param_value}'")
             except Exception as err:
                 if logger:
@@ -356,6 +356,6 @@ async def run_reflection_engine(
                 ))
                 if logger:
                     colored_name = f"\033[38;5;116m'{dom_param.param_name}'\033[0m"
-                    logger.neutral(f"[{dom_param.location}] {colored_name} no reflection detected (default: DOM_JS_HTML)")
+                    logger.neutral(f"[{dom_param.location}] {colored_name} 未检测到反射（默认：DOM_JS_HTML）")
 
     return parameters

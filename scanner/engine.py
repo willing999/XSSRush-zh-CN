@@ -29,11 +29,11 @@ class ScannerEngine:
 
     async def run(self) -> Tuple[List[XSSFinding], List[Parameter]]:
         if not is_valid_url(self.config.target_url):
-            self.logger.error(f"Invalid target URL: {self.config.target_url}")
+            self.logger.error(f"无效的目标 URL：{self.config.target_url}")
             return [], []
 
-        self.logger.info(f"target URL: {self.config.target_url}")
-        self.logger.info(f"browser engine: {self.config.browser_type} (headless={self.config.headless})")
+        self.logger.info(f"目标 URL：{self.config.target_url}")
+        self.logger.info(f"浏览器引擎：{self.config.browser_type}（headless={self.config.headless}）")
         if self.config.target_params:
             param_displays = []
             for tp in self.config.target_params:
@@ -44,15 +44,15 @@ class ScannerEngine:
                     param_displays.append(f"{tp}:{ctx}")
                 else:
                     param_displays.append(tp)
-            self.logger.info(f"target parameter(s): {', '.join(param_displays)}")
+            self.logger.info(f"目标参数：{', '.join(param_displays)}")
         elif self.config.default_context:
-            self.logger.info(f"default context: {self.config.default_context}")
+            self.logger.info(f"默认上下文：{self.config.default_context}")
         if self.config.exclude_params:
-            self.logger.info(f"excluding parameter(s): {', '.join(self.config.exclude_params)}")
+            self.logger.info(f"排除参数：{', '.join(self.config.exclude_params)}")
         if self.config.wordlist_path:
-            self.logger.info(f"probing wordlist parameter(s): {self.config.wordlist_path} ({len(self.config.wordlist_params)} params)")
+            self.logger.info(f"探测字典参数：{self.config.wordlist_path}（{len(self.config.wordlist_params)} 个参数）")
         if self.config.mining_only:
-            self.logger.info("mining mode active: parameter discovery and reflection analysis only")
+            self.logger.info("挖掘模式已启用：仅执行参数发现与反射分析")
         self.logger.debug(f"scan scope modules: {', '.join(self.config.scan_modules)}")
 
         all_findings: List[XSSFinding] = []
@@ -109,11 +109,11 @@ class ScannerEngine:
 
             if not parameters:
                 if self.config.mining_only:
-                    self.logger.warning("no parameters discovered for mining")
+                    self.logger.warning("未发现用于挖掘的参数")
                     self.state.findings = []
                     self.state.mark_completed()
                     return [], []
-                self.logger.warning("no parameters discovered; checking path, fragment, and header vectors...")
+                self.logger.warning("未发现参数；正在检查 path、fragment 和 header 向量...")
             else:
                 self.state.current_step = 1
                 self.logger.debug("beginning Step 1 (reflection analysis)...")
@@ -193,10 +193,10 @@ class ScannerEngine:
             self.state.findings = all_findings
             self.state.mark_completed()
 
-            self.logger.info(f"scan finished in {self.state.elapsed_seconds}s")
+            self.logger.info(f"扫描完成，用时 {self.state.elapsed_seconds} 秒")
 
         except Exception as err:
-            self.logger.error(f"scanner engine encountered an unexpected error: {err}")
+            self.logger.error(f"扫描引擎遇到意外错误：{err}")
         finally:
             self.logger.debug("closing browser resources...")
             await self.browser_manager.close()

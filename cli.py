@@ -151,8 +151,8 @@ class XSSRArgumentParser(argparse.ArgumentParser):
         print(f"\033[97m{clean.strip()}\033[0m\n")
 
     def error(self, message):
-        print(f"\033[97mxssr: error: {message}\033[0m", file=sys.stderr)
-        print("\033[90m(use 'xssr -h' or 'xssr --help' to view all available options)\033[0m\n", file=sys.stderr)
+        print(f"\033[97mxssr: 错误: {message}\033[0m", file=sys.stderr)
+        print("\033[90m(使用 'xssr -h' 或 'xssr --help' 查看所有可用选项)\033[0m\n", file=sys.stderr)
         sys.exit(2)
 
 def build_parser() -> argparse.ArgumentParser:
@@ -162,23 +162,23 @@ def build_parser() -> argparse.ArgumentParser:
         formatter_class=XSSRHelpFormatter,
     )
 
-    target_group = parser.add_argument_group("Target Options")
+    target_group = parser.add_argument_group("目标选项")
     target_group.add_argument(
         "-u", "--url",
         dest="url",
         type=str,
         default=None,
-        help="Target URL to scan (e.g. https://example.com/search?q=test)",
+        help="要扫描的目标 URL（例如 https://example.com/search?q=test）",
     )
 
-    browser_group = parser.add_argument_group("Browser & Engine Options")
+    browser_group = parser.add_argument_group("浏览器与引擎选项")
     browser_group.add_argument(
         "-b", "--browser",
         dest="browser",
         type=str,
         choices=["firefox", "chromium", "webkit"],
         default="firefox",
-        help="Browser engine to use (default: firefox)",
+        help="要使用的浏览器引擎（默认：firefox）",
     )
     browser_group.add_argument(
         "--headless",
@@ -187,38 +187,38 @@ def build_parser() -> argparse.ArgumentParser:
         choices=["true", "false"],
         default="true",
         metavar="",
-        help="Run browser in headless mode (choices: true, false, default: true)",
+        help="以无头模式运行浏览器（可选：true, false，默认：true）",
     )
     browser_group.add_argument(
         "--timeout",
         dest="timeout",
         type=int,
         default=15000,
-        help="Page navigation timeout in milliseconds (default: 15000)",
+        help="页面导航超时（毫秒，默认：15000）",
     )
     browser_group.add_argument(
         "--delay-min",
         dest="delay_min",
         type=int,
         default=3000,
-        help="Minimum request delay in ms (default: 3000)",
+        help="最小请求延迟（毫秒，默认：3000）",
     )
     browser_group.add_argument(
         "--delay-max",
         dest="delay_max",
         type=int,
         default=5000,
-        help="Maximum request delay in ms (default: 5000)",
+        help="最大请求延迟（毫秒，默认：5000）",
     )
 
-    scope_group = parser.add_argument_group("Scan Scope Options")
+    scope_group = parser.add_argument_group("扫描范围选项")
     scope_group.add_argument(
         "--scan",
         dest="scan",
         type=str,
         default="get,post",
         metavar="MODULES",
-        help="Modules to test: get, post, path, fragment, header, or all (default: get,post)",
+        help="要测试的模块：get, post, path, fragment, header 或 all（默认：get,post）",
     )
     scope_group.add_argument(
         "-w", "--wordlist",
@@ -226,14 +226,14 @@ def build_parser() -> argparse.ArgumentParser:
         type=str,
         default=None,
         metavar="FILE",
-        help="Custom parameter wordlist file to probe (e.g. 'wordlists/common.txt')",
+        help="要探测的自定义参数字典文件（例如 'wordlists/common.txt'）",
     )
     scope_group.add_argument(
         "-m", "--mining",
         dest="mining",
         action="store_true",
         default=False,
-        help="Perform parameter mining and reflection analysis only (no XSS testing)",
+        help="仅执行参数挖掘与反射分析（不进行 XSS 测试）",
     )
     scope_group.add_argument(
         "-p", "--param",
@@ -241,7 +241,7 @@ def build_parser() -> argparse.ArgumentParser:
         action="append",
         default=None,
         metavar="PARAMS",
-        help="Parameters to test (e.g. 'p:js,q:html' or 'name')",
+        help="要测试的参数（例如 'p:js,q:html' 或 'name'）",
     )
     scope_group.add_argument(
         "-e", "--exclude",
@@ -249,7 +249,7 @@ def build_parser() -> argparse.ArgumentParser:
         action="append",
         default=None,
         metavar="PARAMS",
-        help="Parameters to skip during testing (comma-separated, e.g. 'name,location')",
+        help="测试期间要跳过的参数（逗号分隔，例如 'name,location'）",
     )
     scope_group.add_argument(
         "-d", "--data",
@@ -257,7 +257,7 @@ def build_parser() -> argparse.ArgumentParser:
         type=str,
         default=None,
         metavar="POSTFIELDS",
-        help="Custom POST data fields (e.g. 'username=admin&search=keyword')",
+        help="自定义 POST 数据字段（例如 'username=admin&search=keyword'）",
     )
     scope_group.add_argument(
         "--context",
@@ -265,7 +265,7 @@ def build_parser() -> argparse.ArgumentParser:
         type=str,
         default=None,
         metavar="CONTEXT",
-        help="Default injection context (choices: js, html, attr, url, dom)",
+        help="默认注入上下文（可选：js, html, attr, url, dom）",
     )
     scope_group.add_argument(
         "--include-header",
@@ -273,7 +273,7 @@ def build_parser() -> argparse.ArgumentParser:
         action="append",
         default=None,
         metavar="HEADERS",
-        help="Custom HTTP headers to add to header scan (comma-separated, e.g. 'X-User-Agent,X-Referer')",
+        help="要添加到 header 扫描的自定义 HTTP 头（逗号分隔，例如 'X-User-Agent,X-Referer'）",
     )
     scope_group.add_argument(
         "--exclude-header",
@@ -281,7 +281,7 @@ def build_parser() -> argparse.ArgumentParser:
         action="append",
         default=None,
         metavar="HEADERS",
-        help="HTTP headers to skip during header scan (comma-separated, e.g. 'User-Agent,Referer')",
+        help="header 扫描期间要跳过的 HTTP 头（逗号分隔，例如 'User-Agent,Referer'）",
     )
 
     parser.add_argument(
@@ -327,51 +327,51 @@ def build_parser() -> argparse.ArgumentParser:
         help=argparse.SUPPRESS,
     )
 
-    info_group = parser.add_argument_group("Information Options")
+    info_group = parser.add_argument_group("信息选项")
     info_group.add_argument(
         "--show-payloads",
         dest="show_payloads",
         action="store_true",
-        help="Show all built-in XSS payloads and exit",
+        help="显示所有内置 XSS payload 并退出",
     )
     info_group.add_argument(
         "--show-params",
         dest="show_params",
         action="store_true",
-        help="Show all built-in known parameters and exit",
+        help="显示所有内置已知参数并退出",
     )
     info_group.add_argument(
         "--show-headers",
         dest="show_headers",
         action="store_true",
-        help="Show all built-in target HTTP headers and exit",
+        help="显示所有内置目标 HTTP 头并退出",
     )
 
-    output_group = parser.add_argument_group("Output & Reporting Options")
+    output_group = parser.add_argument_group("输出与报告选项")
     output_group.add_argument(
         "-o", "--output",
         dest="output",
         type=str,
         default=None,
         metavar="FILE",
-        help="Save report JSON (saved to output/ folder unless absolute path is given)",
+        help="保存报告 JSON（除非给定绝对路径，否则保存到 output/ 文件夹）",
     )
     output_group.add_argument(
         "-v", "--verbose",
         dest="verbose",
         action="store_true",
-        help="Enable verbose debugging output",
+        help="启用详细调试输出",
     )
     output_group.add_argument(
         "-h", "--help",
         action="help",
-        help="Show this help message and exit",
+        help="显示此帮助信息并退出",
     )
     output_group.add_argument(
         "--version",
         action="version",
         version="XSSR/XSSRush 2.0.0",
-        help="Show program's version number and exit",
+        help="显示程序版本号并退出",
     )
 
     return parser
@@ -382,7 +382,7 @@ async def main_async(args):
 
     target_url = args.url.strip()
     if not is_valid_url(target_url):
-        logger.error(f"invalid target URL: '{target_url}' (must begin with http:// or https://)")
+        logger.error(f"无效的目标 URL：'{target_url}'（必须以 http:// 或 https:// 开头）")
         sys.exit(1)
 
     raw_data = getattr(args, "data", None)
@@ -406,11 +406,11 @@ async def main_async(args):
     if getattr(args, "wordlist", None):
         wl_path = resolve_wordlist_path(args.wordlist, base_dir)
         if not wl_path.is_file():
-            logger.error(f"wordlist file not found: '{args.wordlist}'")
+            logger.error(f"未找到字典文件：'{args.wordlist}'")
             sys.exit(1)
         wordlist_params = load_wordlist(wl_path)
         resolved_wordlist = str(wl_path)
-        logger.info(f"loaded {len(wordlist_params)} parameter(s) from wordlist: '{args.wordlist}'")
+        logger.info(f"从字典加载了 {len(wordlist_params)} 个参数：'{args.wordlist}'")
 
     config = ScanConfig(
         target_url=target_url,
@@ -467,12 +467,12 @@ def main():
         sys.exit(0)
 
     if not args.url:
-        parser.error("the following arguments are required: -u/--url")
+        parser.error("缺少必需的参数：-u/--url")
 
     try:
         asyncio.run(main_async(args))
     except KeyboardInterrupt:
-        print("\n\033[1m\033[31m[!]\033[0m Scan interrupted by user.")
+        print("\n\033[1m\033[31m[!]\033[0m 扫描已被用户中断。")
         sys.exit(130)
 
 if __name__ == "__main__":

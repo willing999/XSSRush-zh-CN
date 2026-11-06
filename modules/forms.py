@@ -31,7 +31,7 @@ async def run_post_based_xss(
         return []
 
     if logger:
-        logger.action("testing POST-based form injection points...")
+        logger.action("正在测试基于 POST 表单的注入点...")
 
     grouped = {}
     for p in post_params:

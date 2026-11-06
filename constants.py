@@ -18,7 +18,7 @@ BANNER = r"""
 """
 
 APP = "XSSRush"
-DESCRIPTION = "An Automatic XSS Scanner"
+DESCRIPTION = "自动化 XSS 扫描器"
 AUTHOR = "N45HT"
 HOMEPAGE = "https://n45ht.or.id"
 EMAIL = "security@n45ht.or.id"

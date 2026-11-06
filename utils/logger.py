@@ -85,8 +85,8 @@ class Logger:
 
         self.current_param_group = group_key
         param_display = f"'{param_name}'" if param_name else "[URL/Path]"
-        ctx_str = f" (context: {context})" if context else ""
-        print(f"[*] testing parameter {SOFT_TEAL}{param_display}{RESET} [{method}]{ctx_str}\n")
+        ctx_str = f" (上下文: {context})" if context else ""
+        print(f"[*] 正在测试参数 {SOFT_TEAL}{param_display}{RESET} [{method}]{ctx_str}\n")
 
     def test_block(
         self,
@@ -117,13 +117,13 @@ class Logger:
         else:
             tag = f"{PURE_WHITE}[+]{RESET}"
 
-        print(f"  {tag} Payload    : {payload_name} ({YELLOW}{payload_str}{RESET})")
-        print(f"  {tag} Request    : {SOFT_SLATE}{request_desc}{RESET}")
+        print(f"  {tag} 载荷(Payload) : {payload_name} ({YELLOW}{payload_str}{RESET})")
+        print(f"  {tag} 请求(Request) : {SOFT_SLATE}{request_desc}{RESET}")
         if postfields:
-            print(f"  {tag} Postfields : {SOFT_SLATE}{postfields}{RESET}")
+            print(f"  {tag} POST 数据    : {SOFT_SLATE}{postfields}{RESET}")
         if header_info:
-            print(f"  {tag} Header     : {SOFT_SLATE}{header_info}{RESET}")
-        print(f"  {tag} Confidence : {conf_str}\n")
+            print(f"  {tag} 请求头(Header) : {SOFT_SLATE}{header_info}{RESET}")
+        print(f"  {tag} 置信度(Confidence) : {conf_str}\n")
 
     def test_log(
         self,

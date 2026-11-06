@@ -275,7 +275,7 @@ async def run_parameter_mining(
     logger: Optional[Logger] = None,
 ) -> List[Parameter]:
     if logger:
-        logger.action(f"starting parameter discovery on target: {target_url}")
+        logger.action(f"开始对目标进行参数发现：{target_url}")
 
     user_exclude_set = set(p.lower() for p in exclude_params) if exclude_params else set()
     active_excluded_dom = list(EXCLUDED_VARS)

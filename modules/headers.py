@@ -56,7 +56,7 @@ async def run_header_based_xss(
     )
 
     if logger:
-        logger.action(f"testing HTTP header injection points ({len(active_headers)} headers)...")
+        logger.action(f"正在测试 HTTP 请求头注入点（{len(active_headers)} 个请求头）...")
         if config.include_headers:
             logger.debug(f"custom included headers: {', '.join(config.include_headers)}")
         if config.exclude_headers:

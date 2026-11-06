@@ -32,17 +32,17 @@ class Reporter:
         self.mining_only = mining_only
 
     def _print_finding_item(self, idx: int, f: XSSFinding):
-        param_str = f.param_name or "[Path/Hash]"
+        param_str = f.param_name or "[路径/哈希]"
         print(f"  ({idx}) {BOLD}{WHITE}{param_str}{RESET} [{f.request_method}]")
         target_url = f.request_url or f.endpoint
         print(f"      url        : {target_url}")
         if f.request_method.upper() == "POST" and f.request_body:
             print(f"      postfields : {f.request_body}")
-        print(f"      context    : {f.context}")
-        print(f"      payload    : {BOLD}{WHITE}{f.payload_value}{RESET}")
-        print(f"      confidence : {format_confidence(f.confidence)}")
+        print(f"      上下文(context)    : {f.context}")
+        print(f"      载荷(payload)      : {BOLD}{WHITE}{f.payload_value}{RESET}")
+        print(f"      置信度(confidence) : {format_confidence(f.confidence)}")
         if f.proof_of_concept:
-            print(f"      poc        : {CYAN}{f.proof_of_concept}{RESET}")
+            print(f"      poc(PoC)   : {CYAN}{f.proof_of_concept}{RESET}")
 
     def print_mining_summary(self):
         reflected_params = []
@@ -78,22 +78,22 @@ class Reporter:
         verified = [f for f in self.findings if f.xss == 1]
         matches = [f for f in self.findings if f.xss == 0 and f.xs_match == 1]
 
-        print(f"\n{BOLD}[*] scan report summary:{RESET}")
-        print(f"  total parameters audited : {BOLD}{len(self.parameters)}{RESET}")
-        print(f"  verified vulnerabilities : {BOLD}{RED if verified else GREEN}{len(verified)}{RESET}")
-        print(f"  reflection matches       : {BOLD}{YELLOW if matches else RESET}{len(matches)}{RESET}")
+        print(f"\n{BOLD}[*] 扫描报告摘要：{RESET}")
+        print(f"  已审计参数总数 : {BOLD}{len(self.parameters)}{RESET}")
+        print(f"  已确认漏洞数   : {BOLD}{RED if verified else GREEN}{len(verified)}{RESET}")
+        print(f"  反射匹配数     : {BOLD}{YELLOW if matches else RESET}{len(matches)}{RESET}")
 
         if not self.findings:
-            print(f"\n[{BOLD}{GREEN}+{RESET}] all tested parameters appear to be safe from XSS.\n")
+            print(f"\n[{BOLD}{GREEN}+{RESET}] 所有测试过的参数似乎都未受 XSS 影响。\n")
             return
 
         if verified:
-            print(f"\n{BOLD}{RED}[!] VERIFIED CROSS-SITE SCRIPTING (XSS) VULNERABILITIES:{RESET}")
+            print(f"\n{BOLD}{RED}[!] 已确认的跨站脚本（XSS）漏洞：{RESET}")
             for idx, f in enumerate(verified, 1):
                 self._print_finding_item(idx, f)
 
         if matches:
-            print(f"\n{BOLD}{YELLOW}[*] UNESCAPED REFLECTION MATCHES (POTENTIAL SINKS):{RESET}")
+            print(f"\n{BOLD}{YELLOW}[*] 未转义的反射匹配（潜在 sink）：{RESET}")
             for idx, f in enumerate(matches, 1):
                 self._print_finding_item(idx, f)
 

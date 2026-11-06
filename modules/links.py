@@ -26,7 +26,7 @@ async def run_path_based_xss(
         return []
 
     if logger:
-        logger.action(f"testing path-based injection points across {len(test_paths)} path segment(s)...")
+        logger.action(f"正在测试 {len(test_paths)} 个路径段上的路径型注入点...")
 
     findings: List[XSSFinding] = []
     payload_keys = XSSR_CONTEXT_MAP.get("path_based", [])

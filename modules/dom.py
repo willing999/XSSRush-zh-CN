@@ -21,7 +21,7 @@ async def run_fragment_based_xss(
     logger: Optional[Logger] = None,
 ) -> List[XSSFinding]:
     if logger:
-        logger.action("testing URL fragment/hash vectors (#payload)...")
+        logger.action("正在测试 URL fragment/hash 向量（#payload）...")
 
     findings: List[XSSFinding] = []
     payload_keys = XSSR_CONTEXT_MAP.get("fragment_based", [])
