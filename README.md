@@ -6,19 +6,23 @@
   </picture>
 </p>
 
-<h3 align="center">Automated Multi-Vector Cross-Site Scripting (XSS) Scanner &amp; Auditor</h3>
+<p align="center">
+  <b>简体中文</b> · <a href="README.en.md">English</a>
+</p>
+
+<h3 align="center">自动化多向量跨站脚本（XSS）扫描器与审计器</h3>
 
 <p align="center">
-  <b>Powered by Playwright Headless Browser Automation &bull; Zero Backend &bull; Standalone Python CLI</b>
+  <b>基于 Playwright 无头浏览器自动化 &bull; 零后端 &bull; 独立 Python CLI</b>
 </p>
 
 <p align="center">
-  <a href="https://github.com/N45HT/XSSRush/releases"><img src="https://img.shields.io/badge/version-v2.0.0-crimson.svg?style=flat-square" alt="Version"></a>
+  <a href="https://github.com/willing999/XSSRush-zh-CN/releases"><img src="https://img.shields.io/badge/version-v2.0.0-crimson.svg?style=flat-square" alt="Version"></a>
   <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/Python-3.10%2B-blue.svg?style=flat-square&logo=python&logoColor=white" alt="Python Version"></a>
   <a href="https://playwright.dev/"><img src="https://img.shields.io/badge/Engine-Playwright-2EAD33.svg?style=flat-square&logo=playwright&logoColor=white" alt="Playwright"></a>
-  <a href="https://github.com/N45HT/XSSRush/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat-square" alt="License"></a>
-  <a href="https://xssr.n45ht.or.id"><img src="https://img.shields.io/badge/website-xssr.n45ht.or.id-ad1a37.svg?style=flat-square" alt="Website"></a>
-  <a href="https://github.com/N45HT/XSSRush/stargazers"><img src="https://img.shields.io/github/stars/N45HT/XSSRush?style=flat-square&color=yellow" alt="GitHub Stars"></a>
+  <a href="https://github.com/willing999/XSSRush-zh-CN/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat-square" alt="License"></a>
+  <a href="https://github.com/willing999/XSSRush-zh-CN"><img src="https://img.shields.io/badge/GitHub-willing999/XSSRush--zh--CN-1f6feb.svg?style=flat-square" alt="GitHub"></a>
+  <a href="https://github.com/willing999/XSSRush-zh-CN/stargazers"><img src="https://img.shields.io/github/stars/willing999/XSSRush-zh-CN?style=flat-square&color=yellow" alt="GitHub Stars"></a>
 </p>
 
 ---
@@ -27,117 +31,111 @@
   <img src="https://xssr.n45ht.or.id/assets/img/xssr-cli-terminal.png" alt="XSSR CLI Execution Preview" width="880">
 </p>
 
-**XSSR (XSSRush)** is an automated Cross-Site Scripting (XSS) vulnerability scanner and security auditor developed by **[N45HT](https://github.com/N45HT)**.
+**XSSR（XSSRush）** 是基于 **Playwright** 的自动化跨站脚本（XSS）漏洞扫描器与安全审计器。
 
-By driving real headless browser instances via **Playwright**, XSSR hooks into the browser event loop to intercept genuine JavaScript execution (`alert`, `confirm`, `prompt`). It eliminates false positives common to static regex scanners by confirming payload execution directly inside the DOM.
+通过 **Playwright** 驱动真实的浏览器实例，XSSR 挂接进浏览器事件循环，拦截真实的 JavaScript 执行（`alert`、`confirm`、`prompt`）。它通过在 DOM 内部确认 payload 的执行，消除了静态正则扫描器常见的误报。
 
 ---
 
-## Audit Pipeline
+## 审计流水线
 
-XSSR executes a structured 7-phase auditing sequence:
+XSSR 执行一个结构化的 7 阶段审计序列：
 
 ```text
-[Step 0: Mining]  ──>  [Step 1: Canary Probing]  ──>  [Step 2: GET & DOM XSS]
+[Step 0: 参数挖掘]  ──>  [Step 1: 金丝雀探测]  ──>  [Step 2: GET & DOM XSS]
                                                                │
-[Step 5: Fragment] <──  [Step 4: Path XSS]  <──  [Step 3: POST Form XSS]
+[Step 5: Fragment] <──  [Step 4: 路径 XSS]  <──  [Step 3: POST 表单 XSS]
         │
-        └───> [Step 6: Header XSS]  ───> [Verification & Reporting]
+        └───> [Step 6: Header XSS]  ───> [验证与报告]
 ```
 
-| Step | Module | Attack Vector & Description |
+| 步骤 | 模块 | 攻击向量与说明 |
 |:---:|---|---|
-| **0** | `modules/parameter_mining.py` | **Parameter Mining**: Extracts query params, form controls, global `window` JS variables, and probes hidden parameters using wordlists. |
-| **1** | `modules/reflection.py` | **Reflection Analysis**: Injects unique canary probe tokens to discover reflection points and maps syntactic contexts (`html`, `attribute`, `javascript`, `url`). |
-| **2** | `modules/get_dom.py` | **Reflected GET & DOM XSS**: Tests context-tuned payloads into query/DOM parameters and intercepts browser dialogs. |
-| **3** | `modules/forms.py` | **POST-Based Form XSS**: Automates DOM form submission (`requestSubmit()`) and generates base64 HTML reproduction PoCs. |
-| **4** | `modules/links.py` | **Path-Based XSS**: Injects payloads into URL path segments and directory rewrites. |
-| **5** | `modules/dom.py` | **Fragment-Based XSS**: Tests URL hash fragments (`#payload`) against client-side SPA routers and DOM sinks. |
-| **6** | `modules/headers.py` | **Header-Based XSS**: Injects payloads into HTTP request headers (`User-Agent`, `Referer`, `Origin`, `Cookie`, `X-Forwarded-*`). |
+| **0** | `modules/parameter_mining.py` | **参数挖掘**：提取查询参数、表单控件、全局 `window` JS 变量，并用字典探测隐藏参数。 |
+| **1** | `modules/reflection.py` | **反射分析**：注入唯一的金丝雀探测 token，发现反射点并映射语法上下文（`html`、`attribute`、`javascript`、`url`）。 |
+| **2** | `modules/get_dom.py` | **反射 GET & DOM XSS**：向查询/DOM 参数测试上下文调优的 payload，并拦截浏览器对话框。 |
+| **3** | `modules/forms.py` | **POST 表单 XSS**：自动化 DOM 表单提交（`requestSubmit()`），并生成 base64 HTML 复现 PoC。 |
+| **4** | `modules/links.py` | **路径型 XSS**：向 URL 路径段和目录重写注入 payload。 |
+| **5** | `modules/dom.py` | **Fragment 型 XSS**：针对客户端 SPA 路由器和 DOM sink 测试 URL hash 片段（`#payload`）。 |
+| **6** | `modules/headers.py` | **Header 型 XSS**：向 HTTP 请求头（`User-Agent`、`Referer`、`Origin`、`Cookie`、`X-Forwarded-*`）注入 payload。 |
 
 ---
 
-## Installation
+## 安装
 
-### Prerequisites
-* Python **3.10** or newer
-* `pip` package manager
+### 前置要求
+* Python **3.10** 或更高版本
+* `pip` 包管理器
 
 ```bash
-# 1. Clone repository
-git clone https://github.com/N45HT/XSSRush.git
-cd XSSRush
+# 1. 克隆仓库
+git clone https://github.com/willing999/XSSRush-zh-CN.git
+cd XSSRush-zh-CN
 
-# 2. Install dependencies
+# 2. 安装依赖
 pip install -r requirements.txt
 
-# 3. Install Playwright browser engine (Firefox default)
+# 3. 安装 Playwright 浏览器引擎（默认 Firefox）
 playwright install firefox
 ```
 
-*(Optional) If you plan to test with Chromium or WebKit engines:*
+*（可选）如果你计划使用 Chromium 或 WebKit 引擎进行测试：*
 ```bash
 playwright install chromium webkit
 ```
 
 ---
 
-## Usage Examples
+## 使用示例
 
-### 1. Basic Single Target Scan (GET & POST)
+### 1. 基础单目标扫描（GET & POST）
 ```bash
 python xssr.py -u "https://target.com/page?id=12"
 ```
 
-### 2. Testing Custom POST Data Fields
+### 2. 测试自定义 POST 数据字段
 ```bash
 python xssr.py -u "https://target.com/login" --scan post -d "username=admin&search=keyword"
 ```
 
-### 3. Full Multi-Vector Audit
-Test all vectors (GET, POST, Path, Fragment, Header) and export report:
+### 3. 完整多向量审计
+测试所有向量（GET、POST、Path、Fragment、Header）并导出报告：
 ```bash
 python xssr.py -u "https://target.com/app" --scan all -o scan_report.json
 ```
 
-### 4. Selecting Browser Engine
-Switch to Chromium or WebKit:
+### 4. 选择浏览器引擎
+切换到 Chromium 或 WebKit：
 ```bash
 python xssr.py -u "https://target.com/app" -b chromium --scan all
 ```
 
-### 5. Visible GUI Browser Mode (Debugging)
-Disable headless mode to visually monitor browser interactions:
+### 5. 可见 GUI 浏览器模式（调试）
+关闭无头模式，可视化监控浏览器交互：
 ```bash
 python xssr.py -u "https://target.com/search?q=test" --headless false -v
 ```
 
-### 6. Fine-Tuning Request Delays
-Adjust delay ranges (in milliseconds) to avoid WAF rate-limiting:
+### 6. 微调请求延迟
+调整延迟范围（毫秒）以规避 WAF 速率限制：
 ```bash
 python xssr.py -u "https://target.com" --scan all --delay-min 1500 --delay-max 3000
 ```
 
-### 7. Custom Wordlist Parameter Mining
-Probe hidden parameters using custom wordlists:
+### 7. 自定义字典参数挖掘
+使用自定义字典探测隐藏参数：
 ```bash
 python xssr.py -u "https://target.com/view" -w "wordlists/common.txt" --scan get,post
 ```
 
-### 8. Parameter Mining & Reflection Probing Only
-Run parameter discovery and reflection context analysis without testing any XSS attack vectors:
-```bash
-python xssr.py -u "https://target.com/view" -m
-```
-
-### 9. Custom HTTP Headers Injection
-Audit specific HTTP headers alongside default targets:
+### 8. 自定义 HTTP 头注入
+在默认目标之外审计特定的 HTTP 头：
 ```bash
 python xssr.py -u "https://target.com" --scan header --include-header "X-Client-IP,X-Custom-Auth"
 ```
 
-### 10. Inspect Built-in Knowledge Bases
-Inspect payloads, known parameter lists, or targeted headers and exit:
+### 9. 查看内置知识库
+查看 payload、已知参数列表或目标头，然后退出：
 ```bash
 python xssr.py --show-payloads
 python xssr.py --show-params
@@ -146,81 +144,71 @@ python xssr.py --show-headers
 
 ---
 
-## Command Line Options
+## 命令行选项
 
 ```text
-Target Options:
-  -u, --url URL                   Target URL to scan (e.g. https://example.com/search?q=test)
+目标选项：
+  -u, --url URL                   要扫描的目标 URL（例如 https://example.com/search?q=test）
 
-Browser & Engine Options:
+浏览器与引擎选项：
   -b, --browser {firefox,chromium,webkit}
-                                  Browser engine to use (default: firefox)
-  --headless                      Run browser in headless mode (choices: true, false, default: true)
-  --timeout TIMEOUT               Page navigation timeout in milliseconds (default: 15000)
-  --delay-min DELAY_MIN           Minimum request delay in ms (default: 3000)
-  --delay-max DELAY_MAX           Maximum request delay in ms (default: 5000)
+                                  浏览器引擎（默认：firefox）
+  --headless                      以无头模式运行浏览器（可选：true, false，默认：true）
+  --timeout TIMEOUT               页面导航超时（毫秒，默认：15000）
+  --delay-min DELAY_MIN           最小请求延迟（毫秒，默认：3000）
+  --delay-max DELAY_MAX           最大请求延迟（毫秒，默认：5000）
 
-Scan Scope Options:
-  --scan MODULES                  Modules to test: get, post, path, fragment, header, or all
-                                  (default: get,post)
-  -w, --wordlist FILE             Custom parameter wordlist file to probe (e.g.
-                                  'wordlists/common.txt')
-  -m, --mining                    Perform parameter mining and reflection analysis only (no XSS
-                                  testing)
-  -p, --param PARAMS              Parameters to test (e.g. 'p:js,q:html' or 'name')
-  -e, --exclude PARAMS            Parameters to skip during testing (comma-separated, e.g.
-                                  'name,location')
-  -d, --data POSTFIELDS           Custom POST data fields (e.g. 'username=admin&search=keyword')
-  --context CONTEXT               Default injection context (choices: js, html, attr, url, dom)
-  --include-header HEADERS        Custom HTTP headers to add to header scan (comma-separated, e.g.
-                                  'X-User-Agent,X-Referer')
-  --exclude-header HEADERS        HTTP headers to skip during header scan (comma-separated, e.g.
-                                  'User-Agent,Referer')
+扫描范围选项：
+  --scan MODULES                  要测试的模块：get, post, path, fragment, header 或 all
+                                  （默认：get,post）
+  -w, --wordlist FILE             要探测的自定义参数字典文件（例如
+                                  'wordlists/common.txt'）
+  -p, --param PARAMS              要测试的参数（逗号分隔，例如 'firstname,lastname'）
+  -e, --exclude PARAMS            测试期间要跳过的参数（逗号分隔，例如
+                                  'name,location'）
+  -d, --data POSTFIELDS           自定义 POST 数据字段（例如 'username=admin&search=keyword'）
+  --include-header HEADERS        添加到 header 扫描的自定义 HTTP 头（逗号分隔，例如
+                                  'X-User-Agent,X-Referer'）
+  --exclude-header HEADERS        header 扫描期间要跳过的 HTTP 头（逗号分隔，例如
+                                  'User-Agent,Referer'）
 
-Information Options:
-  --show-payloads                 Show all built-in XSS payloads and exit
-  --show-params                   Show all built-in known parameters and exit
-  --show-headers                  Show all built-in target HTTP headers and exit
+信息选项：
+  --show-payloads                 显示所有内置 XSS payload 并退出
+  --show-params                   显示所有内置已知参数并退出
+  --show-headers                  显示所有内置目标 HTTP 头并退出
 
-Output & Reporting Options:
-  -o, --output FILE               Save report JSON (saved to output/ folder unless absolute path is
-                                  given)
-  -v, --verbose                   Enable verbose debugging output
-  -h, --help                      Show this help message and exit
-  --version                       Show program's version number and exit
+输出与报告选项：
+  -o, --output FILE               保存报告 JSON（除非给定绝对路径，否则保存到 output/ 文件夹）
+  -v, --verbose                   启用详细调试输出
+  -h, --help                      显示此帮助信息并退出
+  --version                       显示程序版本号并退出
 ```
 
 ---
 
-## Legal Disclaimer
+## 法律免责声明
 
-> **Responsible Security Research Only:**  
-> **XSSR (XSSRush)** is developed strictly for authorized penetration testing, security auditing, educational purposes, and responsible vulnerability research. 
-> 
-> Testing targets without prior mutual written consent is illegal in most jurisdictions. The developer accepts no liability and is not responsible for any misuse, damage, or legal consequences caused by this software. Use responsibly.
+> **仅限负责任的安全研究：**
+> **XSSR（XSSRush）** 是严格为授权的渗透测试、安全审计、教育目的和负责任漏洞研究而开发的。
+>
+> 在大多数司法管辖区，未经事先双方书面同意测试目标属于违法行为。开发者不承担任何责任，对由本软件造成的任何滥用、损害或法律后果概不负责。请负责任地使用。
 
 ---
 
-## Support & Donation
+## 支持与捐赠
 
-If you find this project useful and want to support its ongoing development:
+如果你觉得这个项目有用并希望支持其持续开发：
 
 <p align="center">
-  <a href="https://buymeacoffee.com/n45htofficial" target="_blank" rel="noopener noreferrer">
-    <img src="https://img.shields.io/badge/Buy%20Me%20A%20Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee">
-  </a>
-  &nbsp;&nbsp;
-  <a href="https://trakteer.id/n45htofficial" target="_blank" rel="noopener noreferrer">
-    <img src="https://img.shields.io/badge/Trakteer-be1e2d?style=for-the-badge&logo=trakteer&logoColor=white" alt="Trakteer">
+  <a href="https://github.com/willing999/XSSRush-zh-CN" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/badge/Star-On%20GitHub-2ea44f?style=for-the-badge&logo=github&logoColor=white" alt="Star On GitHub">
   </a>
 </p>
 
 ---
 
-## Author & License
+## 作者与许可
 
-* **Author:** **[N45HT](https://github.com/N45HT)**
-* **Official Website:** [https://n45ht.or.id](https://n45ht.or.id)
-* **XSSRush Landing Page:** [https://xssr.n45ht.or.id](https://xssr.n45ht.or.id)
-* **Security Contact:** [security@n45ht.or.id](mailto:security@n45ht.or.id)
-* **License:** Released under the [MIT License](LICENSE).
+* **作者：** **[willing999](https://github.com/willing999)**
+* **GitHub：** [https://github.com/willing999/XSSRush-zh-CN](https://github.com/willing999/XSSRush-zh-CN)
+* **许可：** 以 [MIT 许可证](LICENSE) 发布。

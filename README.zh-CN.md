@@ -6,6 +6,10 @@
   </picture>
 </p>
 
+<p align="center">
+  <b>简体中文</b> · <a href="README.en.md">English</a>
+</p>
+
 <h3 align="center">自动化多向量跨站脚本（XSS）扫描器与审计器</h3>
 
 <p align="center">
@@ -13,12 +17,12 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/N45HT/XSSRush/releases"><img src="https://img.shields.io/badge/version-v2.0.0-crimson.svg?style=flat-square" alt="Version"></a>
+  <a href="https://github.com/willing999/XSSRush-zh-CN/releases"><img src="https://img.shields.io/badge/version-v2.0.0-crimson.svg?style=flat-square" alt="Version"></a>
   <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/Python-3.10%2B-blue.svg?style=flat-square&logo=python&logoColor=white" alt="Python Version"></a>
   <a href="https://playwright.dev/"><img src="https://img.shields.io/badge/Engine-Playwright-2EAD33.svg?style=flat-square&logo=playwright&logoColor=white" alt="Playwright"></a>
-  <a href="https://github.com/N45HT/XSSRush/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat-square" alt="License"></a>
-  <a href="https://xssr.n45ht.or.id"><img src="https://img.shields.io/badge/website-xssr.n45ht.or.id-ad1a37.svg?style=flat-square" alt="Website"></a>
-  <a href="https://github.com/N45HT/XSSRush/stargazers"><img src="https://img.shields.io/github/stars/N45HT/XSSRush?style=flat-square&color=yellow" alt="GitHub Stars"></a>
+  <a href="https://github.com/willing999/XSSRush-zh-CN/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat-square" alt="License"></a>
+  <a href="https://github.com/willing999/XSSRush-zh-CN"><img src="https://img.shields.io/badge/GitHub-willing999/XSSRush--zh--CN-1f6feb.svg?style=flat-square" alt="GitHub"></a>
+  <a href="https://github.com/willing999/XSSRush-zh-CN/stargazers"><img src="https://img.shields.io/github/stars/willing999/XSSRush-zh-CN?style=flat-square&color=yellow" alt="GitHub Stars"></a>
 </p>
 
 ---
@@ -27,7 +31,7 @@
   <img src="https://xssr.n45ht.or.id/assets/img/xssr-cli-terminal.png" alt="XSSR CLI Execution Preview" width="880">
 </p>
 
-**XSSR（XSSRush）** 是由 **[N45HT](https://github.com/N45HT)** 开发的自动化跨站脚本（XSS）漏洞扫描器与安全审计器。
+**XSSR（XSSRush）** 是基于 **Playwright** 的自动化跨站脚本（XSS）漏洞扫描器与安全审计器。
 
 通过 **Playwright** 驱动真实的浏览器实例，XSSR 挂接进浏览器事件循环，拦截真实的 JavaScript 执行（`alert`、`confirm`、`prompt`）。它通过在 DOM 内部确认 payload 的执行，消除了静态正则扫描器常见的误报。
 
@@ -65,8 +69,8 @@ XSSR 执行一个结构化的 7 阶段审计序列：
 
 ```bash
 # 1. 克隆仓库
-git clone https://github.com/N45HT/XSSRush.git
-cd XSSRush
+git clone https://github.com/willing999/XSSRush-zh-CN.git
+cd XSSRush-zh-CN
 
 # 2. 安装依赖
 pip install -r requirements.txt
@@ -196,12 +200,8 @@ python xssr.py --show-headers
 如果你觉得这个项目有用并希望支持其持续开发：
 
 <p align="center">
-  <a href="https://buymeacoffee.com/n45htofficial" target="_blank" rel="noopener noreferrer">
-    <img src="https://img.shields.io/badge/Buy%20Me%20A%20Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee">
-  </a>
-  &nbsp;&nbsp;
-  <a href="https://trakteer.id/n45htofficial" target="_blank" rel="noopener noreferrer">
-    <img src="https://img.shields.io/badge/Trakteer-be1e2d?style=for-the-badge&logo=trakteer&logoColor=white" alt="Trakteer">
+  <a href="https://github.com/willing999/XSSRush-zh-CN" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/badge/Star-On%20GitHub-2ea44f?style=for-the-badge&logo=github&logoColor=white" alt="Star On GitHub">
   </a>
 </p>
 
@@ -209,8 +209,6 @@ python xssr.py --show-headers
 
 ## 作者与许可
 
-* **作者：** **[N45HT](https://github.com/N45HT)**
-* **官方网站：** [https://n45ht.or.id](https://n45ht.or.id)
-* **XSSRush 落地页：** [https://xssr.n45ht.or.id](https://xssr.n45ht.or.id)
-* **安全联系：** [security@n45ht.or.id](mailto:security@n45ht.or.id)
+* **作者：** **[willing999](https://github.com/willing999)**
+* **GitHub：** [https://github.com/willing999/XSSRush-zh-CN](https://github.com/willing999/XSSRush-zh-CN)
 * **许可：** 以 [MIT 许可证](LICENSE) 发布。
